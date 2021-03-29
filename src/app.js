@@ -11,20 +11,35 @@ const foldersRouter = require('./folders/folders-router')
 
 const app = express()
 
+const {CLIENT_ORIGIN} = require('./config');
+
+app.use(
+    cors({
+      origin: 'http://localhost:3000'
+    })
+);
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
 app.use(morgan(morganOption))
-app.use(cors())
+
 app.use(helmet())
 
-app.use('/api/notes', notesRouter)
-app.use('/api/folders', foldersRouter)
+app.use('/notes', notesRouter)
+app.use('/folders', foldersRouter)
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!')
+app.get('/', function(req, res) {
+  res.send('Hello World');
+})
+
+app.get('/', function(req, res) {
+  res.render('form');
+})
+
+app.post('/', function(req,res){
+  res.send(htmlData);
 })
 
      app.use(function errorHandler(error, req, res, next) {
