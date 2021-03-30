@@ -4,21 +4,21 @@ const app = require('../src/app')
 const { makeNotesArray } = require('./notes.fixtures')
 
 describe('Notes Endpoints', function() {
-  let db
+  let database
 
   before('make knex instance', () => {
-    db = knex({
+    database = knex({
       client: 'pg',
-      connection: process.env.TEST_DB_URL,
+      connection: process.env.TEST_database_URL,
     })
-    app.set('db', db)
+    app.set('database', database)
   })
 
-  after('disconnect from db', () => db.destroy())
+  after('disconnect from database', () => database.destroy())
 
-  before('clean the table', () => db('notes').truncate())
+  before('clean the table', () => database('notes').truncate())
 
-  afterEach('cleanup',() => db('notes').truncate())
+  afterEach('cleanup',() => database('notes').truncate())
 
   describe(`GET /api/notes`, () => {
     context(`Given no notes`, () => {
@@ -33,7 +33,7 @@ describe('Notes Endpoints', function() {
     const testNotes = makeNotesArray()
 
     beforeEach('insert notes', () => {
-      return db
+      return database
         .into('notes')
         .insert(testNotes)
     })
@@ -60,7 +60,7 @@ describe(`GET /api/notes/:note_id`, () => {
     const testNotes = makeNotesArray()
 
     beforeEach('insert notes', () => {
-      return db
+      return database
         .into('notes')
         .insert(testNotes)
     })
@@ -134,7 +134,7 @@ describe.only(`DELETE /api/notes/:note_id`, () => {
        const testNotes = makeNotesArray()
   
        beforeEach('insert notes', () => {
-         return db
+         return database
            .into('notes')
            .insert(testNotes)
        })

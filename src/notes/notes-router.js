@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const xss = require('xss'); 
+const xss = require('xss');
 const NotesService = require('./notes-service');
 
 const notesRouter = express.Router();
@@ -19,7 +19,7 @@ notesRouter
   .get((req, res, next) => {
     const knexInstance = req.app.get('db');
     NotesService.getAllNotes(knexInstance)
-      .then(notes =>{
+      .then(notes => {
         res.json(notes)
       })
       .catch(next)
@@ -31,11 +31,11 @@ notesRouter
 
     for (const [key, value] of Object.entries(newNote)) {
       if (value == null) {
-             return res.status(400).json({
-               error: { message: `Missing '${key}' in request body` }
-             })
-           }
-         }
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+      }
+    }
 
     NotesService.insertNote(
       req.app.get('db'),
@@ -53,55 +53,55 @@ notesRouter
 notesRouter
   .route('/:note_id')
   .all((req, res, next) => {
-         NotesService.getNoteById(
-           req.app.get('db'),
-           req.params.note_id
-         )
-           .then(note => {
-             if (!note) {
-               return res.status(404).json({
-                 error: { message: `Note doesn't exist` }
-               })
-             }
-             res.note = note // save the note for the next middleware
-             next() 
-           })
-           .catch(next)
-       })
-        .get((req, res, next) => {
-         res.json(serializeNote(res.note))
+    NotesService.getNoteById(
+      req.app.get('db'),
+      req.params.note_id
+    )
+      .then(note => {
+        if (!note) {
+          return res.status(404).json({
+            error: { message: `Note doesn't exist` }
+          })
+        }
+        res.note = note // save the note for the next middleware
+        next()
+      })
+      .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json(serializeNote(res.note))
   })
   .delete((req, res, next) => {
     NotesService.deleteNote(
-           req.app.get('db'),
-           req.params.note_id
-         )
-           .then(numRowsAffected => {
-             res.status(204).end()
-           })
-           .catch(next)
-       })
+      req.app.get('db'),
+      req.params.note_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
   .patch(jsonParser, (req, res, next) => {
-        const { name, folderId, content } = req.body
-        const noteToUpdate = { id, name, folderId, content }
-    
-        const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length
-        if (numberOfValues === 0)
-          return res.status(400).json({
-            error: {
-              message: `Request body must content either 'name', 'folderId' or 'content'`
-            }
-          })
-    
-        NotesService.updateNote(
-          req.app.get('db'),
-          req.params.note_id,
-          noteToUpdate
-        )
-          .then(numRowsAffected => {
-            res.status(204).end()
-          })
-          .catch(next)
-        })
+    const { name, folderId, content } = req.body
+    const noteToUpdate = { id, name, folderId, content }
+
+    const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length
+    if (numberOfValues === 0)
+      return res.status(400).json({
+        error: {
+          message: `Request body must content either 'name', 'folderId' or 'content'`
+        }
+      })
+
+    NotesService.updateNote(
+      req.app.get('db'),
+      req.params.note_id,
+      noteToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
 
 module.exports = notesRouter

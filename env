@@ -1,1 +1,3 @@
 API_TOKEN=ed073fa8-8ddf-11eb-8dcd-0242ac130003
+DATABASE_URL="postgresql://kj@localhost/notefull-store"
+

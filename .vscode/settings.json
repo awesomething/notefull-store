@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "MySQL",
+            "name": "::1",
+            "database": "notefull-store",
+            "username": "postgres",
+            "password": ""
+        }
+    ]
+}

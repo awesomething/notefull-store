@@ -3,21 +3,21 @@ const app = require('../src/app')
 const { makeFoldersArray, makeMaliciousFolder } = require('./folders.fixtures')
 
 describe('Folders Endpoints', function() {
-    let db
+    let database
 
     before('make knex instance', () => {
-        db = knex({
+        database = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: process.env.TEST_DATABASE_URL
         })
-        app.set('db', db)
+        app.set('database', database)
     })
 
-    after('disconnect from db', () => db.destroy())
+    after('disconnect from database', () => database.destroy())
 
-    before('clean the table', () => db.raw('TRUNCATE folders RESTART IDENTITY CASCADE'))
+    before('clean the table', () => database.raw('TRUNCATE folders RESTART IDENTITY CASCADE'))
 
-    afterEach('cleanup', () => db.raw('TRUNCATE folders RESTART IDENTITY CASCADE'))
+    afterEach('cleanup', () => database.raw('TRUNCATE folders RESTART IDENTITY CASCADE'))
 
     describe(`GET /api/folders`, () => {
         context(`Given no articles`, () => {
@@ -32,11 +32,11 @@ describe('Folders Endpoints', function() {
             const testFolders = makeFoldersArray();
 
             beforeEach('insert folders', () => {
-                return db
+                return database
                 .into('folders')
                 .insert(testFolders)
                 .then(() => {
-                    return db
+                    return database
                         .into('folders')
                         .insert(testFolders)
                 })
@@ -66,11 +66,11 @@ describe('Folders Endpoints', function() {
             const testFolders = makeFoldersArray()
 
             beforeEach('insert folders', () => {
-                return db
+                return database
                     .into('folders')
                     .insert(testFolders)
                     .then(() => {
-                        return db
+                        return database
                             .into('folders')
                             .insert(testFolders)
                     })
