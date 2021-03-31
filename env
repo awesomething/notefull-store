@@ -1,3 +1,10 @@
 API_TOKEN=ed073fa8-8ddf-11eb-8dcd-0242ac130003
 DATABASE_URL="postgresql://postgres@localhost:5432/notefull-store"
 
+module.exports.generateSql = function () {
+  return (
+    "CREATE USER transaction_user WITH PASSWORD '" +
+    process.env.TRANSACTION_USER_PASSWORD +
+    "'"
+  )
+}
