@@ -4,7 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config')
 if (NODE_ENV === 'development') require('dotenv').config();
-const postgrator = require('postgrator');
+
 
 
 const notesRouter = require('./notes/notes-router')

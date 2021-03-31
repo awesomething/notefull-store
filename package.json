@@ -31,6 +31,7 @@
     "mysql2": "^2.2.5",
     "pg": "^8.5.1",
     "postgrator": "^4.1.1",
+    "postgrator-cli": "^4.0.0",
     "xss": "^1.0.6"
   },
   "devDependencies": {
