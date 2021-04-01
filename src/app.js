@@ -12,7 +12,7 @@ const foldersRouter = require('./folders/folders-router')
 
 const app = express()
 
-//const { CLIENT_ORIGIN } = require('./config');
+const { CLIENT_ORIGIN } = require('./config');
 
 app.use(cors());
 
