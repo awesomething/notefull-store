@@ -31,7 +31,13 @@ app.get('/', function (req, res) {
   res.send('Hello World');
 })
 
+app.get('/notes', function (req, res) {
+  res.send('');
+})
 
+app.post('/folders', function (req, res) {
+  res.send('');
+})
 
 app.use(function errorHandler(error, req, res, next) {
   let response
