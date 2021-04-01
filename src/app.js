@@ -25,19 +25,15 @@ app.use(morgan(morganOption))
 app.use(helmet())
 
 app.use('/notes', notesRouter)
+app.post('/notes', notesRouter)
 app.use('/folders', foldersRouter)
+app.get('/folders', foldersRouter)
 
 app.get('/', function (req, res) {
   res.send('Hello World');
 })
 
-app.get('/notes', function (req, res) {
-  res.send('');
-})
 
-app.post('/folders', function (req, res) {
-  res.send('');
-})
 
 app.use(function errorHandler(error, req, res, next) {
   let response
