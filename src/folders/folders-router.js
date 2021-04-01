@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const xss = require('xss'); 
-const foldersService = require('./folders-service');
+const FoldersService = require('./folders-service');
 
 const foldersRouter = express.Router();
 const jsonParser = express.json();
@@ -15,7 +15,7 @@ foldersRouter
 .route('/')
 .get((req, res, next) => {
   const knexInstance = req.app.get('db');
-  foldersService.getAllFolders(knexInstance)
+  FoldersService.getAllFolders(knexInstance)
     .then(folders =>{
       res.json(folders)
     })
@@ -90,7 +90,7 @@ foldersRouter
           }
         })
   
-      foldersService.updateFolder(
+      FoldersService.updateFolder(
         req.app.get('db'),
         req.params.folder_id,
         folderToUpdate
